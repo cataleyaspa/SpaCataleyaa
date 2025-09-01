@@ -31,6 +31,9 @@ export const metadata: Metadata = {
     siteName: "Spa Cataleya",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.ico", // 👈 aquí va tu logo
+  },
 };
 
 export default function RootLayout({
