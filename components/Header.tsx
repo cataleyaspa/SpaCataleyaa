@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -11,12 +10,16 @@ export default function Header() {
     <header className="fixed w-full top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
       <div className="px-4 md:px-8 lg:px-16 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center">
+          {/* Logo + Nombre */}
+          <Link href="/" className="flex items-center space-x-3">
             <img 
-              src="https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/889394fc7f3ae0182519e695c029b2c2.png" 
+              src="/logo.png"   // 👈 coloca tu logo en la carpeta /public con este nombre
               alt="Cataleya Estudio de Belleza" 
-              className="h-12 md:h-16 lg:h-20 w-auto"
+              className="h-12 w-12 object-contain"
             />
+            <span className="text-xl md:text-2xl font-bold text-gray-800">
+              Cataleya
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
