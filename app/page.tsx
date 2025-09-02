@@ -33,10 +33,36 @@ export default function Home() {
 
   const openImageModal = (imageSrc: string) => {
     setSelectedImage(imageSrc);
+    document.body.style.overflow = 'hidden';
   };
 
   const closeImageModal = () => {
     setSelectedImage(null);
+    document.body.style.overflow = 'unset';
+  };
+
+  const galleryImages = [
+    "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/936aa059738e344f6eafa761f07602a9.jfif",
+    "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/3acb6e251d76c13d8f840237e6134010.jfif",
+    "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/e25b78565b8291df6a03e7e25da5198b.jfif",
+    "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/14564d8f6498799073ad8a1d6599b157.png",
+    "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/3b65152cf755176380362b664dc18d44.jfif",
+    "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/e73bb32ede4da870080d70b8bd531758.png"
+  ];
+
+  const navigateImage = (direction: 'prev' | 'next') => {
+    if (!selectedImage) return;
+    
+    const currentIndex = galleryImages.indexOf(selectedImage);
+    let newIndex;
+    
+    if (direction === 'prev') {
+      newIndex = currentIndex > 0 ? currentIndex - 1 : galleryImages.length - 1;
+    } else {
+      newIndex = currentIndex < galleryImages.length - 1 ? currentIndex + 1 : 0;
+    }
+    
+    setSelectedImage(galleryImages[newIndex]);
   };
 
   return (
@@ -88,7 +114,11 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <button
-                    onClick={handleReservarAhora}
+                    onClick={() => {
+                      const message = "Hola, quisiera reservar una cita en Cataleya Estudio de Belleza.";
+                      const whatsappUrl = `https://wa.me/51927066998?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappUrl, '_blank');
+                    }}
                     className="group bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white px-8 py-4 md:px-12 md:py-5 lg:px-16 lg:py-6 rounded-full font-semibold shadow-2xl hover:shadow-yellow-500/25 transition-all duration-500 text-base md:text-lg transform hover:-translate-y-1 hover:scale-105 relative overflow-hidden"
                   >
                     <span className="relative z-10">Reservar Ahora</span>
@@ -257,25 +287,24 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-              {[
-                "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/936aa059738e344f6eafa761f07602a9.jfif",
-                "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/3acb6e251d76c13d8f840237e6134010.jfif",
-                "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/e25b78565b8291df6a03e7e25da5198b.jfif",
-                "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/14564d8f6498799073ad8a1d6599b157.png",
-                "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/3b65152cf755176380362b664dc18d44.jfif",
-                "https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/e73bb32ede4da870080d70b8bd531758.png"
-              ].map((src, index) => (
-                <div key={index} className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2">
+              {galleryImages.map((src, index) => (
+                <div 
+                  key={index} 
+                  className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2 cursor-pointer"
+                  onClick={() => openImageModal(src)}
+                >
                   <img 
                     src={src}
                     alt={`Resultado ${index + 1}`}
-                    className="w-full h-40 md:h-48 lg:h-56 object-cover cursor-pointer group-hover:scale-110 transition-transform duration-700"
-                    onClick={() => openImageModal(src)}
+                    className="w-full h-40 md:h-48 lg:h-56 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <div className="absolute bottom-4 left-4 right-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
                     <div className="bg-white/90 backdrop-blur-sm rounded-lg p-2">
-                      <p className="text-xs font-medium text-gray-700">Ver imagen completa</p>
+                      <p className="text-xs font-medium text-gray-700 flex items-center">
+                        <i className="ri-eye-line mr-1"></i>
+                        Click para ampliar
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -310,7 +339,7 @@ export default function Home() {
                 <div key={testimonial.name} className="group bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50 hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2">
                   <div className="flex items-center mb-6">
                     <div className={`w-16 h-16 bg-gradient-to-br ${testimonial.color} rounded-full flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
-                      <span className="text-white font-bold text-lg">{testimonial.initials}</span>
+                      <span className="text-white font-bold text-lg">{testimonial.initialss}</span>
                     </div>
                     <div>
                       <p className="font-semibold text-gray-800 text-lg">{testimonial.name}</p>
@@ -405,47 +434,29 @@ export default function Home() {
         <Footer />
       </div>
 
-      {/* Enhanced Image Modal */}
+      {/* Simple Image Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
           onClick={closeImageModal}
         >
-          <div className="relative max-w-2xl max-h-full animate-scale-in">
+          <div className="relative max-w-4xl max-h-[90vh] w-full">
             <img 
               src={selectedImage}
               alt="Imagen ampliada"
-              className="w-full h-auto rounded-3xl shadow-2xl"
+              className="w-full h-auto max-h-[90vh] object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
             />
+            
             <button
               onClick={closeImageModal}
-              className="absolute -top-4 -right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-300 shadow-xl hover:scale-110 transform"
+              className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-300 shadow-lg"
             >
               <i className="ri-close-line text-gray-700 text-xl"></i>
             </button>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        
-        @keyframes scale-in {
-          from { transform: scale(0.9) translateY(20px); opacity: 0; }
-          to { transform: scale(1) translateY(0); opacity: 1; }
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 0.3s ease-out;
-        }
-        
-        .animate-scale-in {
-          animation: scale-in 0.4s ease-out;
-        }
-      `}</style>
     </div>
   );
 }
