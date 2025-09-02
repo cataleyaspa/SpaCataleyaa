@@ -339,7 +339,7 @@ export default function Home() {
                 <div key={testimonial.name} className="group bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50 hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2">
                   <div className="flex items-center mb-6">
                     <div className={`w-16 h-16 bg-gradient-to-br ${testimonial.color} rounded-full flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
-                      <span className="text-white font-bold text-lg">{testimonial.initialss}</span>
+                      <span className="text-white font-bold text-lg">{testimonial.initials}</span>
                     </div>
                     <div>
                       <p className="font-semibold text-gray-800 text-lg">{testimonial.name}</p>
