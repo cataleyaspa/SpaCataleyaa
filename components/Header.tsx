@@ -65,7 +65,7 @@ export default function Header() {
             <img 
               src="https://static.readdy.ai/image/6874aa987404632b096ca2c8b71ac343/889394fc7f3ae0182519e695c029b2c2.png" 
               alt="Cataleya Estudio de Belleza" 
-              className="h-12 md:h-16 lg:h-20 w-auto drop-shadow-lg"
+              className="h-16 md:h-20 lg:h-24 w-auto drop-shadow-lg"
             />
           </div>
 
